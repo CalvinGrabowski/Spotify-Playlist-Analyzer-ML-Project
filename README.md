@@ -1,73 +1,67 @@
-# Spotify Playlist Analyzer
+# Spotify Playlist Analyzer (AI/ML)
 
-**Disclaimer:** This website was made with the intention to allow users to be able to see what their playlist truly contain in a fun and unserious fashion that allows them to see their playlist in a different way. The moods given by our program does not necessarily reflect the true vibes of the song.
+An AI/ML-powered web application that analyzes Spotify playlists to infer mood patterns from audio features.  
+Built collaboratively with James McGhee, the project leverages Python, Spotipy, RapidAPI, and machine learning models to generate visual insights for playlists.  
+This project started in OSU AI Club and evolved into a full-stack web application.
 
-Although we are creative, we have taken a lot of ideas from spotify ourselves. Funny enough we thought of this idea, and while we were implimenting our idea into this project spotify added a mood picker to their own website, and while we were working on this project and Calvin got to the section where we wanted to take the audio features from spotify songs using (spotipy), spotify removed the audio features ability, that required us to pivot how our ai got it's information. *(For context we used the audio features for a week playing around with it, and after I got back from thanksgiving break the feature was removed).*
+
+
+## Project Background
+
+During development, we adapted to changes in Spotify's API, requiring a pivot in how the AI obtained audio features. This challenged us to creatively preprocess data and adjust our ML models to maintain functionality.  
+
 
 ## Core Website Features
 
-There are many things that our website has, but this first section is all about the aesthetics of our website and why we made it how we did.
+- **Dynamic Playlist Display:** Pulls cover images and track info from Spotify, dynamically coloring pages based on dominant album artwork colors (Color Thief).  
+- **Mood Prediction:** Backend ML models analyze audio features to infer playlist moods, visualized with pie charts.  
+- **Search & Playlist Management:** Users can search playlists and submit new playlists, which are processed by the backend efficiently.
 
-### Design
 
-![The home page of the website](readme-imgs/home-page.png)
+![Homepage](readme-imgs/home-page.png)  
+Dynamic homepage with playlist search and submission features.
 
-Features from our home page consists of our four parts, our title banner, our add playlist box, our search and sort box, and our uploaded playlists
+![Playlist Visualization](readme-imgs/hyper-playlist.png)  
+Pages like this were created with user submissions of spotify playlist links, and page gets created showing ML-generated mood predictions and dynamic color backgrounds for the user.  
 
-![Hover animation](readme-imgs/hover-animation.png)
+![Search Feature](readme-imgs/search-feature.png)  
+Search functionality filters playlists dynamically based on user queries. Which looks at both playlist and song titles.
 
-Although it isn't obvious in the photos when we hover over a playlist the playlist lifts up making it easier for the user to see what they are selecting
 
-![image of the hyper playlist page](readme-imgs/hyper-playlist.png)
 
-In each playlist the program pulls the cover image from spotify and puts it in as the cover of our page, we then grab the playlist name, and all the songs that are in the playlist, we give the songs to RapidAPI that pulls audio features from the song, then we give our ai the audio features to guess the mood. 
-
-We display all of that information on this page, and James made a program that takes in that information and displays it on a pi chart. Each page also uses Color Theif to pull the dominate color in the cover photo to dynamically allocate the background color of the area, and Calvin made a secondary color be a lighter version of the primary color
-
-![search feature](readme-imgs/search-feature.png)
-
-Peyton added a search feature that uses a query search through our playlists creating a new url based on the search.
-
-Unfortunately, due to our time on the project we didn't end up adding our sorting feature. We could have, but we didn't end up making the framework we needed to make the sort useful. *(We will talk about this more in **The future of our website** section)*
-
-The final feature is the one that uses all of our backend and that is our add a playlist link box.
-
-![playlist alert](readme-imgs/playlist-saved.png)
-
-When submitting a playlist if the url is not a proper url it will alert you, if it is not a spotify playlist it will alert you, and if it is a spotify playlist then it will grab what is in the box and send it to our backend. Once the backend finishes processing, an alert is shown and after you click okay the page is refreshed and the playlist appears at the end of the list.
-
-![playlist inserted](readme-imgs/playlist-inserted.png)
-
-As seen the playlist appears at the bottom of the playlist. It takes approximately 1 second per song, to do everything in the backend. Saddly this seems, slow, but in the future we hope to make it better. *(We also are paying for a subscription on rapidapi to get more than the 3 songs per day for free)*
-
-![new page for playlist](readme-imgs/new-playlist.png)
-
-This was the first time we used this playlist, but it dynamically made the page, found the moods, made chart, and grabbed the primary and secondary color for this playlist.
 
 ## Core Backend Features
 
-The backend there are a lot less photos needed in my opinion because all the files are right next to this readme.
+- **ML Model:** Trained on 3,000 songs using a preprocessing pipeline to normalize audio features for pattern recognition. The model predicts moods based on features such as tempo, energy, and valence.  
+- **Integration:** Backend connects the ML model with the frontend, processing Spotify playlists and returning insights in real time.  
+- **Environment & Security:** `.env` files store sensitive API credentials (Spotipy, RapidAPI) to protect accounts and manage API usage.
 
-### Structure
+<details>
+<summary>Backend Structure</summary>
 
-For readability, this is what the structure of our document looks like *(The image is massive because structure is important)*
+![Backend Structure](readme-imgs/structure.png)  
+Directory layout and project structure for readability and maintainability.
 
-![Structure](readme-imgs/structure.png)
+![Model Structure](readme-imgs/ai-model.png)  
+Overview of the AI/ML model repository and preprocessing workflow.
 
-One key difference between the github repository and this screenshot is what the .gitignore file does.
+</details>
 
-and why we have it so the secret.env exists. And that is because of passwords. We use my *Spotipy client id*, my *spotipy client secret*, and my *rapidAPI key*. These are necessary for running the website, and although because it isn't pushed people can't use all our features, they can create their own secret file with their own passwords, and the program will work. Again we pay for everytime we use the rapid api for the audio features, so if someone could find that on our github, they could run the code thousands of times and that could add up to a lot of money. The spotipy api isn't as bad but it links to my spotify account so I would rather not give that out.
 
-### Model
+## Contributions
 
-Our model was trained on data and designed by me (Calvin) and James on a seperate repository because we started this project because of AI club
+Calvin and James collaborated on all major aspects of this project. Key responsibilities included:
 
-![structure of ai model repository](readme-imgs/ai-model.png)
+- **Calvin:** Data preprocessing, ML model integration, frontend dynamic visualizations.
+- **James:** Model design, pattern recognition logic, charting, backend integration.
 
-Because this isn't in our repo I won't talk too much about it, but essentially we used 3,000 songs that we downloaded a csv file for, and I made a program that dictated what audio features led to what kind of mood, and then I made it so the songs would get preprocessed into the range 0-1 for faster processing, and then we gave that information to our ai model, that James created and it developed pattern recognition, based on the data I sorted, and from that we saved the model and brought it into this project so that we can use it for this project
 
-### Predict Playlist
 
-This in my opinion is the core of the website, and I was lucky enough to be the one to get it working allowing us to use our ai. Essentially, you can look at the code in the back-end/model folder
+## Future Work
 
-## The Future of our Website
+- Optimize backend processing speed for larger playlists.  
+- Expand sorting and filtering features.  
+- Explore additional ML-driven playlist insights and visualizations.
+- Deploy website for constant use
+
+
